@@ -1,0 +1,40 @@
+ul {
+  padding: 0;
+}
+
+ul li {
+  display: none;
+  cursor: pointer;
+  transition: 0.3s ease-out 0.1s;
+}
+
+ul li:hover {
+  opacity: 0.7;
+}
+
+ul.active li,
+ul li.active {
+  display: block;
+}
+
+table {
+  text-align: left;
+}
+
+th {
+  background-color: #cecece;
+}
+
+tr {
+  cursor: pointer;
+  transition: 0.3s ease-out 0.1s;
+}
+
+tr:hover {
+  background-color: #eeeeee;
+}
+
+td, th {
+  min-width: 200px;
+  border: 1px solid;
+}
