@@ -3,16 +3,12 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => ({
   goods: state.reducer.goods,
-  item: state.reducer.item,
   basket: state.reducer.basket,
-  discount: state.reducer.discount
+  discount: state.reducer.discount,
+  total: state.reducer.total
 });
 
 const actions = {
-  chooseItem: (item) => ({
-    type: 'CHOOSE_ITEM',
-    item
-  }),
   addToBasket: (basket) => ({
     type: 'ADD_TO_BASKET',
     basket
@@ -23,36 +19,43 @@ const actions = {
   })
 }
 
+let itemId = 0;
+
 class AddItem extends React.Component{
   render() {
     return(
-      <div>
-        <div>
+      <form onSubmit={(e)=>{
+        e.preventDefault();
+        let nameValue = this.refs.item.value;
+        let priceValue = this.refs.price.value;
+        let discount = priceValue - priceValue*0.01;
+        let discountValue = this.props.discount + (priceValue - discount.toFixed(0));
+        itemId++;
+        let item = {
+          id: itemId,
+          name: nameValue,
+          price: priceValue,
+          discount: discount.toFixed(0)
+        }
+        if ((nameValue !== '')&&(priceValue !=='')&&(this.props.total == 0)){
+          this.props.dispatch(actions.addToBasket(item));
+          this.props.dispatch(actions.countDiscount(discountValue));
+        }
+      }}>
+        <div className='inputs'>
           <p>Продукт</p>
-          <ul onClick={(e) => {
-              e.currentTarget.classList.toggle('active');
-              e.target.classList.toggle('active');
-          }}>
-          {this.props.goods ?
-            this.props.goods.map((item,key) => {
-              return <li key={key} className={key == 0 ? 'active' : ''} onClick={(e) => {
-                this.props.dispatch(actions.chooseItem(item));
-              }}>{item.name}</li>
-            }) : null}
-            </ul>
+          <input type='text' disabled={this.props.total>0?true: null} ref='item'/>
         </div>
-        <div>
+        <div className='inputs'>
           <p>Цена</p>
-          <p><span>{this.props.item ? this.props.item.price : null}</span></p>
+          <p><input type='text' ref='price' disabled={this.props.total>0?true: null} onKeyPress={(e)=>{
+            if (isNaN(e.key)) {
+              e.preventDefault();
+            }
+          }}/></p>
         </div>
-        <button onClick={() => {
-          let sendItem = this.props.item;
-          let discount = this.props.discount + (sendItem.price - sendItem.discount);
-          console.log(this.props.discount);
-          this.props.dispatch(actions.addToBasket(sendItem));
-          this.props.dispatch(actions.countDiscount(discount));
-        }}>Добавить</button>
-      </div>
+        <button className={this.props.total>0? 'inactive': ''} type='submit'>Добавить</button>
+      </form>
     )
   }
 }

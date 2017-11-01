@@ -38,3 +38,11 @@ td, th {
   min-width: 200px;
   border: 1px solid;
 }
+
+.inputs {
+  display: inline-block;
+}
+
+.inactive {
+  display: none;
+}

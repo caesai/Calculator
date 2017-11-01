@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => ({
   basket: state.reducer.basket,
-  discount: state.reducer.discount
+  discount: state.reducer.discount,
+  total: state.reducer.total
 });
 
 const actions = {
@@ -18,7 +19,6 @@ const actions = {
 }
 
 class Basket extends React.Component{
-
   render() {
     return(
       <div>
@@ -35,16 +35,16 @@ class Basket extends React.Component{
             {this.props.basket ? this.props.basket.map((item, key) => {
               return <tr key={key} onClick={()=>{
                 let discount = this.props.discount - (item.price - item.discount);
-
-                this.props.dispatch(actions.removeItem(key));
-                this.props.dispatch(actions.countDiscount(discount));
+                if (this.props.total == 0) {
+                  this.props.dispatch(actions.removeItem(key));
+                  this.props.dispatch(actions.countDiscount(discount));
+                }
               }}>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
                 <td>{item.discount}</td>
               </tr>
             }): null}
-
           </tbody>
         </table>
       </div>

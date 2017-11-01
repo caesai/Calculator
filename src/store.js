@@ -3,21 +3,13 @@ import thunkMiddleware from 'redux-thunk';
 
 const reducerState = {
   goods: [],
-  item: {},
   basket: [],
-  discount: 0
+  discount: 0,
+  total: 0
 }
 
 export function reducer (state = reducerState, action) {
   switch (action.type) {
-    case 'GET_GOODS_LIST':
-      return Object.assign({}, state, {
-        goods: action.list
-      })
-    case 'CHOOSE_ITEM':
-      return Object.assign({}, state, {
-        item: action.item
-      })
     case 'ADD_TO_BASKET':
       return Object.assign({}, state, {
         basket: state.basket.concat(action.basket)
@@ -29,6 +21,23 @@ export function reducer (state = reducerState, action) {
     case 'COUNT_DISCOUNT':
       return Object.assign({}, state, {
         discount: action.discount
+      })
+    case 'APPLY_DISCOUNT':
+      state.basket.map((item, key) => {
+        if (item.id == action.basket.id) {
+            state.basket[key] = action.basket;
+        }
+      })
+      return Object.assign({}, ...state, {
+        basket: state.basket
+      })
+    case 'TOTAL_COUNT':
+      state.basket.map((item, key) => {
+        state.total =+ item.price;
+      })
+      return Object.assign({}, ...state, {
+        basket: state.basket,
+        total: state.total
       })
     default:
       return Object.assign({}, state, {
