@@ -23699,12 +23699,15 @@ var AddItem = function (_React$Component) {
                 if (isNaN(e.key)) {
                   e.preventDefault();
                 }
+                if (e.key == 'Enter') {
+                  _this2.refs.button.click();
+                }
               } })
           )
         ),
         _react2.default.createElement(
           'button',
-          { className: this.props.total > 0 ? 'inactive' : '', type: 'submit' },
+          { ref: 'button', className: this.props.total > 0 ? 'inactive' : '', type: 'submit' },
           '\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C'
         )
       );

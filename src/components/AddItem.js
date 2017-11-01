@@ -52,9 +52,12 @@ class AddItem extends React.Component{
             if (isNaN(e.key)) {
               e.preventDefault();
             }
+            if (e.key == 'Enter') {
+              this.refs.button.click();
+            }
           }}/></p>
         </div>
-        <button className={this.props.total>0? 'inactive': ''} type='submit'>Добавить</button>
+        <button ref='button' className={this.props.total>0? 'inactive': ''} type='submit'>Добавить</button>
       </form>
     )
   }
