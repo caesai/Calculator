@@ -29,15 +29,18 @@ export function reducer (state = reducerState, action) {
         }
       })
       return Object.assign({}, ...state, {
+        discount: state.discount,
         basket: state.basket
       })
     case 'TOTAL_COUNT':
+      let total = 0;
       state.basket.map((item, key) => {
-        state.total =+ item.price;
+        total = Number(total) + Number(item.price);
       })
       return Object.assign({}, ...state, {
         basket: state.basket,
-        total: state.total
+        discount: state.discount,
+        total: total
       })
     default:
       return Object.assign({}, state, {

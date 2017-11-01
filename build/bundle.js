@@ -23525,15 +23525,18 @@ function reducer() {
         }
       });
       return Object.assign.apply(Object, [{}].concat(_toConsumableArray(state), [{
+        discount: state.discount,
         basket: state.basket
       }]));
     case 'TOTAL_COUNT':
+      var total = 0;
       state.basket.map(function (item, key) {
-        state.total = +item.price;
+        total = Number(total) + Number(item.price);
       });
       return Object.assign.apply(Object, [{}].concat(_toConsumableArray(state), [{
         basket: state.basket,
-        total: state.total
+        discount: state.discount,
+        total: total
       }]));
     default:
       return Object.assign({}, state, {
@@ -23923,17 +23926,28 @@ var Discounter = function (_React$Component) {
         'div',
         null,
         this.props.total > 0 ? _react2.default.createElement(
-          'p',
+          'div',
           null,
-          '\u0418\u0442\u043E\u0433\u043E: ',
-          this.props.total,
-          ' \u0440\u0443\u0431\u043B\u0435\u0439'
+          _react2.default.createElement(
+            'p',
+            null,
+            '\u0421\u043A\u0438\u0434\u043A\u0430 ',
+            this.props.discount,
+            ' \u0440\u0443\u0431.'
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            '\u0418\u0442\u043E\u0433\u043E: ',
+            this.props.total,
+            ' \u0440\u0443\u0431.'
+          )
         ) : _react2.default.createElement(
           'p',
           null,
           '\u041F\u0440\u0438\u043C\u0435\u043D\u0438\u0442\u044C \u0441\u043A\u0438\u0434\u043A\u0443 ',
           this.props.discount,
-          ' \u0440\u0443\u0431\u043B\u0435\u0439'
+          ' \u0440\u0443\u0431.'
         ),
         _react2.default.createElement(
           'button',

@@ -22,8 +22,11 @@ class Discounter extends React.Component{
     return (
       <div>
         {this.props.total > 0 ?
-          <p>Итого: {this.props.total} рублей</p>
-          :<p>Применить скидку {this.props.discount} рублей</p>
+          <div>
+            <p>Скидка {this.props.discount} руб.</p>
+            <p>Итого: {this.props.total} руб.</p>
+          </div>
+          :<p>Применить скидку {this.props.discount} руб.</p>
         }
         <button className={this.props.total > 0 ? 'inactive' : ''}
           onClick={(e)=>{
